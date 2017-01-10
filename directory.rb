@@ -15,7 +15,4 @@ puts "The Joker"
 puts "Joffrey Baratheon"
 puts "Norman Bates"
 # Finally, we print the overall number of students.
-print "Overall, we have "
-# It's important that we use the print() method here because it doesn't add a new line.
-print student_number
-puts "great students."
+puts "Overall, we have #{student_number} great students."
