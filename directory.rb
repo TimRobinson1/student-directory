@@ -9,9 +9,14 @@ def input_students
   name = gets.chomp
   # While the name is not empty, repeat this code
   while !name.empty? do
-    # Add the student hash to the array
-    students << {name: name, cohort: :november}
-    puts "Now we have #{students.count} students"
+    # Check to see if the student name starts with an 'A'.
+    if name.downcase.match /^a/
+      students << {name: name, cohort: :november}
+      puts "Now we have #{students.count} students"
+    # If not, we do not print the student name.
+    else
+      puts "That student does not exist"
+    end
     # Get another name from the user
     name = gets.chomp
   end
