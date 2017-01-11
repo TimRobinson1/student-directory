@@ -11,7 +11,7 @@ def input_students
   while !name.empty? do
     # Check to see if the student name is longer than 12 characters. We're only printing shorter names.
     if name.length < 12
-      students << {name: name, cohort: :november}
+      students << {name: name, cohort: :november, height: rand(1.5..2.0).round(2)}
       puts "Now we have #{students.count} students"
     # If it is longer, we do not print the student name.
     else
@@ -32,9 +32,12 @@ def print_header
 end
 
 def print(students)
+  countries = ["United Kingdom", "Ireland", "France", "Germany", "USA", "Spain", "Kenya", "Russia", "Japan"]
+  hobbies = ["murdering", "stealing candy from babies", "world domination", "armed robbery", "being evil", "shooting guns"]
   num = 0
   until num == students.length do
-    puts "#{num+1}: #{students[num][:name]} (#{students[num][:cohort]} cohort)"
+    x = students[num]
+    puts "#{num+1}: #{x[:name]}, #{x[:height]}m tall, #{countries.sample}. Favourite hobbies: #{hobbies.sample}. (#{x[:cohort]} cohort)"
     num += 1
   end
 end
