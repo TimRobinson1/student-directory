@@ -1,5 +1,3 @@
-student_count = 11
-
 # First, we put all students into the array 'students'
 students = [
   "Dr. Hannibal Lecter",
@@ -29,4 +27,4 @@ puts students[8]
 puts students[9]
 puts students[10]
 # Lastly, the count:
-puts "Overall, we have #{student_count} great students."
+puts "Overall, we have #{students.count} great students."
