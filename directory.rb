@@ -9,11 +9,11 @@ def input_students
   name = gets.chomp
   # While the name is not empty, repeat this code
   while !name.empty? do
-    # Check to see if the student name starts with an 'A'.
-    if name.downcase.match /^a/
+    # Check to see if the student name is longer than 12 characters. We're only printing shorter names.
+    if name.length < 12
       students << {name: name, cohort: :november}
       puts "Now we have #{students.count} students"
-    # If not, we do not print the student name.
+    # If it is longer, we do not print the student name.
     else
       puts "That student does not exist"
     end
