@@ -12,7 +12,7 @@ def input_students
   while !name.empty? do
     # Check to see if the student name is longer than 12 characters. We're only printing shorter names.
     if name.length < 12
-      puts "Name: #{name}. Now we have #{students.count + 1} students."
+      if students.count == 0 then puts "Name: #{name}. Now we have #{students.count + 1} student." else puts "Name: #{name}. Now we have #{students.count + 1} students." end
       puts "Please enter their cohort."
       cohort = gets.chomp
       if !months.include?(cohort.downcase)
@@ -59,7 +59,7 @@ def print(s)
 end
 
 def print_footer(names)
-  puts "Overall, we have #{names.count} great students".center(80)
+  if names.count == 1 then puts "Overall, we only have #{names.count} great student.".center(80) else puts "Overall, we have #{names.count} great students".center(80) end
 end
 
 # Then we call the functions.
