@@ -1,12 +1,11 @@
-# First, we put all students into the array 'students'
 
 def input_students
+  months = ["january", "february", "march", "april", "may", "june", "july", "august",
+            "september", "october", "november", "december", "unknown"]
   puts "Please enter the names of the students"
   puts "To finish, just hit return twice"
   # Create an empty array
   students = []
-  months = ["january", "february", "march", "april", "may", "june", "july", "august",
-            "september", "october", "november", "december", "unknown"]
   # Get the first name
   name = gets.chomp
   # While the name is not empty, repeat this code
@@ -42,12 +41,20 @@ def print_header
   puts "--------------------".center(80)
 end
 
-def print(students)
-  num = 0
-  until num == students.length do
-    x = students[num]
-    puts "#{num+1}: #{x[:name]} (#{x[:cohort]} cohort)".center(80)
-    num += 1
+def print(s)
+  months = [:january, :february, :march, :april, :may, :june, :july, :august,
+            :september, :october, :november, :december, :unknown]
+  group = s.group_by { |i| i[:cohort] }
+  months.each do |y|
+    counter = 0
+    if !group[y].nil?
+      until group[y].count == counter
+      puts "#{group[y][counter][:name]} (#{group[y][counter][:cohort]} cohort)".center(80)
+      counter += 1
+      end
+    else
+      counter = 0
+    end
   end
 end
 
