@@ -1,11 +1,6 @@
 @students = []
 
-def input_students
-  puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
-  # Get the first name
-  name = STDIN.gets.chomp
-  # While the name is not empty, repeat this code
+def student_input_loop(name)
   while !name.empty? do
     # Add the student hash to the array
     student_list(name)
@@ -13,6 +8,14 @@ def input_students
     # Get another name from the user
     name = STDIN.gets.chomp
   end
+end
+
+def input_students
+  puts "Please enter the names of the students\nTo finish, just hit return twice"
+  # Get the first name
+  name = STDIN.gets.chomp
+  # While the name is not empty, repeat this code
+  student_input_loop(name)
   # Return the array of students
   @students
 end
@@ -46,7 +49,7 @@ def show_students
   print_footer(@students)
 end
 
-def process(selection)
+def process_input(selection)
   case selection
   when "1"
     @students = input_students
@@ -72,21 +75,25 @@ def save_students
     csv_line = student_data.join(",")
     file.puts csv_line
   end
+  # Must always remember to close files when they've been opened.
   file.close
   puts "Students saved to file."
 end
 
 def load_students(filename = "students.csv")
+  # Opens the file in read-only mode.
   file = File.open(filename, "r")
+  # Goes through each line, assigns them into an array and splits into a string.
   file.readlines.each do |line|
     name, cohort = line.chomp.split(',')
     student_list(name, cohort)
   end
+  # Must always remember to close files when they've been opened.
   file.close
   puts "Students loaded from file."
 end
 
-def try_load_students
+def initial_load_students
   filename = ARGV.first # Takes the first argument from the command line.
   if filename.nil?
     load_students("students.csv")
@@ -108,10 +115,10 @@ end
 def interactive_menu
   loop do
     print_menu
-    process(STDIN.gets.chomp)
+    process_input(STDIN.gets.chomp)
   end
 end
 
 # Then we call the functions.
-try_load_students
+initial_load_students
 interactive_menu
