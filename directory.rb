@@ -11,10 +11,14 @@ def input_students
   while !name.empty? do
     # Check to see if the student name is longer than 12 characters. We're only printing shorter names.
     if name.length < 12
-      students << {name: name, cohort: :november}
-      puts "Now we have #{students.count} students"
-    # If it is longer, we do not print the student name.
+      puts "Name: #{name}. Now we have #{students.count} students."
+      puts "Please enter their cohort."
+      cohort = gets.chomp
+      if !cohort.empty? then cohort else cohort = :Unknown end
+      students << {name: name, cohort: cohort}
+      puts "Please enter the name of the next student, or ENTER to end."
     else
+      # If it is longer, we do not print the student name.
       puts "That student does not exist"
     end
     # Get another name from the user
