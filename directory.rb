@@ -39,8 +39,8 @@ end
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list of students to students.csv"
-  puts "4. Load list of students from students.csv"
+  puts "3. Save the list of students to a file"
+  puts "4. Load list of students from a file"
   puts "5. Clear the current list of students"
   puts "9. Exit" # This is 9 because we'll be adding more items.
 end
@@ -72,13 +72,19 @@ def process_input(selection)
 end
 
 def save_students
-  # Open file for writing
-  file = File.open("students.csv", "w")
-  # Iterate over the array of students
-  @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+  puts "Please enter the file name you wish to save to"
+  file = STDIN.gets.chomp
+  if File.exists?(file) # Checks existence of filename
+    file = File.open(file, "w")
+    # Iterate over the array of students
+    @students.each do |student|
+      student_data = [student[:name], student[:cohort]]
+      csv_line = student_data.join(",")
+      file.puts csv_line
+    end
+  else # If it doesn't exist
+    puts "Sorry, #{file} doesn't exist."
+    exit # Quits the program
   end
   # Must always remember to close files when they've been opened.
   file.close
@@ -86,22 +92,32 @@ def save_students
 end
 
 def load_students(filename = "students.csv")
-  # Opens the file in read-only mode.
-  file = File.open(filename, "r")
-  # Goes through each line, assigns them into an array and splits into a string.
-  file.readlines.each do |line|
-    name, cohort = line.chomp.split(',')
-    student_list(name, cohort)
+  puts "Please enter the file you wish to load"
+  file = STDIN.gets.chomp
+  load_students_loop(file)
+end
+
+def load_students_loop(file)
+  if File.exists?(file)
+    # Opens the file in read-only mode.
+    file = File.open(file, "r")
+    # Goes through each line, assigns them into an array and splits into a string.
+    file.readlines.each do |line|
+      name, cohort = line.chomp.split(',')
+      student_list(name, cohort)
+    end
+    puts "Students loaded from file."
+    file.close
+  else
+    puts "The file #{file} does not exist."
   end
   # Must always remember to close files when they've been opened.
-  file.close
-  puts "Students loaded from file."
 end
 
 def initial_load_students
   filename = ARGV.first # Takes the first argument from the command line.
   if filename.nil?
-    load_students("students.csv")
+    load_students_loop("students.csv")
     puts "Default student file: students.csv"
   else
     if File.exists?(filename) # Checks existence of filename
