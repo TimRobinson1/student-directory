@@ -5,16 +5,23 @@ def input_students
   puts "To finish, just hit return twice"
   # Create an empty array
   students = []
+  months = ["january", "february", "march", "april", "may", "june", "july", "august",
+            "september", "october", "november", "december", "unknown"]
   # Get the first name
   name = gets.chomp
   # While the name is not empty, repeat this code
   while !name.empty? do
     # Check to see if the student name is longer than 12 characters. We're only printing shorter names.
     if name.length < 12
-      puts "Name: #{name}. Now we have #{students.count} students."
+      puts "Name: #{name}. Now we have #{students.count + 1} students."
       puts "Please enter their cohort."
       cohort = gets.chomp
-      if !cohort.empty? then cohort else cohort = :Unknown end
+      if !months.include?(cohort.downcase)
+        puts "Unrecognised cohort. Assigning cohort: 'unknown'"
+        cohort = :unknown
+      else
+        cohort = cohort.intern
+      end
       students << {name: name, cohort: cohort}
       puts "Please enter the name of the next student, or ENTER to end."
     else
