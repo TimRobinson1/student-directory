@@ -7,14 +7,18 @@ def input_students
   # Create an empty array
   students = []
   # Get the first name
-  name = gets.chop
+  name = gets.chomp
+  while name.empty? do
+    puts "Please input at least one name."
+    name = gets.chomp
+  end
   # While the name is not empty, repeat this code
   while !name.empty? do
     # Check to see if the student name is longer than 12 characters. We're only printing shorter names.
     if name.length < 12
       if students.count == 0 then puts "Name: #{name}. Now we have #{students.count + 1} student." else puts "Name: #{name}. Now we have #{students.count + 1} students." end
       puts "Please enter their cohort."
-      cohort = gets.chop
+      cohort = gets.chomp
       if !months.include?(cohort.downcase)
         puts "Unrecognised cohort. Assigning cohort: 'unknown'"
         cohort = :unknown
@@ -28,7 +32,7 @@ def input_students
       puts "That student does not exist"
     end
     # Get another name from the user
-    name = gets.chop
+    name = gets.chomp
   end
   # Return the array of students
   students
