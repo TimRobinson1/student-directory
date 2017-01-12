@@ -75,19 +75,18 @@ def save_students
   puts "Please enter the file name you wish to save to"
   file = STDIN.gets.chomp
   if File.exists?(file) # Checks existence of filename
-    file = File.open(file, "w")
-    # Iterate over the array of students
-    @students.each do |student|
-      student_data = [student[:name], student[:cohort]]
-      csv_line = student_data.join(",")
-      file.puts csv_line
+    File.open(file, 'w') do |f|
+      @students.each do |student|
+        student_data = [student[:name], student[:cohort]]
+        csv_line = student_data.join(",")
+        f.puts csv_line
+      end
     end
   else # If it doesn't exist
     puts "Sorry, #{file} doesn't exist."
     exit # Quits the program
   end
   # Must always remember to close files when they've been opened.
-  file.close
   puts "Students saved to file."
 end
 
@@ -100,14 +99,13 @@ end
 def load_students_loop(file)
   if File.exists?(file)
     # Opens the file in read-only mode.
-    file = File.open(file, "r")
-    # Goes through each line, assigns them into an array and splits into a string.
-    file.readlines.each do |line|
-      name, cohort = line.chomp.split(',')
-      student_list(name, cohort)
+    File.open(file, 'r') do |file|
+      file.readlines.each do |line|
+        name, cohort = line.chomp.split(',')
+        student_list(name, cohort)
+      end
     end
     puts "Students loaded from file."
-    file.close
   else
     puts "The file #{file} does not exist."
   end
