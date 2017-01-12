@@ -8,6 +8,7 @@ def student_input_loop(name)
     # Get another name from the user
     name = STDIN.gets.chomp
   end
+  puts "Students added. We now have a total of #{@students.count} students"
 end
 
 def input_students
@@ -40,6 +41,7 @@ def print_menu
   puts "2. Show the students"
   puts "3. Save the list of students to students.csv"
   puts "4. Load list of students from students.csv"
+  puts "5. Clear the current list of students"
   puts "9. Exit" # This is 9 because we'll be adding more items.
 end
 
@@ -59,7 +61,10 @@ def process_input(selection)
     save_students
   when "4"
     load_students
+  when "5"
+    clear_students
   when "9"
+    puts "Exiting program..."
     exit # This terminates the program.
   else
     puts "I don't understand, please try again."
@@ -97,6 +102,7 @@ def initial_load_students
   filename = ARGV.first # Takes the first argument from the command line.
   if filename.nil?
     load_students("students.csv")
+    puts "Default student file: students.csv"
   else
     if File.exists?(filename) # Checks existence of filename
       load_students(filename)
@@ -110,6 +116,11 @@ end
 
 def student_list(name, cohort = :november)
   @students << {name: name, cohort: cohort.to_sym}
+end
+
+def clear_students
+  @students = []
+  puts "All students expelled."
 end
 
 def interactive_menu
