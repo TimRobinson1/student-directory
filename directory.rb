@@ -1,4 +1,5 @@
 @students = []
+require 'CSV'
 
 def student_input_loop(name)
   while !name.empty? do
@@ -75,19 +76,17 @@ def save_students
   puts "Please enter the file name you wish to save to"
   file = STDIN.gets.chomp
   if File.exists?(file) # Checks existence of filename
-    File.open(file, 'w') do |f|
+    CSV.open("students.csv", "wb") do |f|
       @students.each do |student|
         student_data = [student[:name], student[:cohort]]
-        csv_line = student_data.join(",")
+        csv_line = student_data
         f.puts csv_line
       end
+      puts "Students saved to file."
     end
   else # If it doesn't exist
     puts "Sorry, #{file} doesn't exist."
-    exit # Quits the program
   end
-  # Must always remember to close files when they've been opened.
-  puts "Students saved to file."
 end
 
 def load_students(filename = "students.csv")
@@ -99,11 +98,10 @@ end
 def load_students_loop(file)
   if File.exists?(file)
     # Opens the file in read-only mode.
-    File.open(file, 'r') do |file|
-      file.readlines.each do |line|
-        name, cohort = line.chomp.split(',')
+    @students = []
+    CSV.foreach(file) do |line|
+        name, cohort = line.join(',').chomp.split(',')
         student_list(name, cohort)
-      end
     end
     puts "Students loaded from file."
   else
